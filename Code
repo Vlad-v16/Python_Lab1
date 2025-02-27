@@ -1,0 +1,26 @@
+import requests
+
+response = requests.get("https://api.breakingbadquotes.xyz/v1/quotes")
+
+if response.status_code == 200:
+    data = response.json()
+    quote = data[0]["quote"]
+    print("Случайная цитата:", quote)
+
+    with open("quote.txt", "w", encoding="utf-8") as file:
+        file.write(quote)
+else:
+    print("Ошибка при получении цитаты")
+
+def count_words(filename):
+    try:
+        with open(filename, "r", encoding="utf-8") as file:
+            text = file.read()
+            words = text.split()
+            return len(words)
+    except FileNotFoundError:
+        print("Файл не знайдено.")
+        return 0
+
+word_count = count_words("quote.txt")
+print("Кількість слів у файлі:", word_count)
